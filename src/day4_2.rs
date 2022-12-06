@@ -1,8 +1,9 @@
 use std::io; 
 
-fn remove_rn(s: &mut String){
-    s.pop();
-    s.pop();
+fn remove_last_n(s: &mut String, times: i32){
+    for i in 0..times {
+        s.pop();
+    }
 }
 
 fn main(){
@@ -10,7 +11,7 @@ fn main(){
     loop { 
         let mut i = String::new(); 
         io::stdin().read_line(&mut i).unwrap(); 
-        remove_rn(&mut i);
+        remove_rn(&mut i, 2);
 
         if i == ""{
             println!("{}", res);
