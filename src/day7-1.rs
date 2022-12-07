@@ -101,7 +101,7 @@ fn create_tree(root: &mut Node) {
                 i = process_ls(root);
                 changed = true;
                 continue;
-            }else if cmd == "cd" {
+            } else if cmd == "cd" {
                 if args[2] == ".." {
                     break;
                 } else if args[2] != "/" {
@@ -110,12 +110,28 @@ fn create_tree(root: &mut Node) {
             }
         }
     }
-    println!("{:?}", root);
 }
 
+fn calculate_size(root: &mut Node, total_sum: &mut u32) -> u32 {
+    if root.is_dir {
+        for child in root.children.iter_mut() {
+            root.size += calculate_size(child, total_sum);
+        }
+        if root.size <= 100000 {
+            println!("[OK] NAME: {}", root.name);
+            *total_sum += root.size;
+        }
+    }
+
+    root.size
+}
 
 fn main() {
     let mut root = Node::new(true, "/".to_string(), 0);
+    let mut total_sum = 0;
     create_tree(&mut root);
-    //calculate_size(&mut root); 
+    calculate_size(&mut root, &mut total_sum);
+    println!("{:?}", root);
+    println!("{}", total_sum);
+
 }
